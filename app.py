@@ -2,6 +2,7 @@
 
 import os
 from flask import Flask, jsonify
+from rate_limiter import limiter
 import sqlalchemy
 
 # web app
@@ -17,8 +18,9 @@ def index():
 
 
 @app.route('/events/hourly')
+@limiter(5, 'hour')
 def events_hourly():
-    return queryHelper('''
+    return query_helper('''
         SELECT date, hour, events
         FROM public.hourly_events
         ORDER BY date, hour
@@ -27,8 +29,9 @@ def events_hourly():
 
 
 @app.route('/events/daily')
+@limiter(3, 'minute')
 def events_daily():
-    return queryHelper('''
+    return query_helper('''
         SELECT date, SUM(events) AS events
         FROM public.hourly_events
         GROUP BY date
@@ -38,8 +41,9 @@ def events_daily():
 
 
 @app.route('/stats/hourly')
+@limiter(10, 'hour')
 def stats_hourly():
-    return queryHelper('''
+    return query_helper('''
         SELECT date, hour, impressions, clicks, revenue
         FROM public.hourly_stats
         ORDER BY date, hour
@@ -48,8 +52,9 @@ def stats_hourly():
 
 
 @app.route('/stats/daily')
+@limiter(4, 'minute')
 def stats_daily():
-    return queryHelper('''
+    return query_helper('''
         SELECT date,
             SUM(impressions) AS impressions,
             SUM(clicks) AS clicks,
@@ -60,14 +65,16 @@ def stats_daily():
         LIMIT 7;
     ''')
 
+
 @app.route('/poi')
 def poi():
-    return queryHelper('''
+    return query_helper('''
         SELECT *
         FROM public.poi;
     ''')
 
-def queryHelper(query):
+
+def query_helper(query):
     with engine.connect() as conn:
         result = conn.execute(query).fetchall()
         return jsonify([dict(row.items()) for row in result])
