@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate-limiting</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-3">
+            <div class="accordion col-12 p-0" id="accordionExample">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Collapse map
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div id="map" class="card-body col-12">
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="row mt-3">
+            <ul class="list-group col-12 col-md-9 mx-auto">
+                <li class="list-group-item text-center">Choose dataset, please</li>
+            </ul>
+            <div id="datasetButton" class="btn-group col-12 col-md-3 p-0">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Datasets
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item">Events</div>
+                    <div class="dropdown-item">Stats</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="hourlyChart" class="col-12 col-md-6 mt-3"></div>
+            <div id="dailyChart" class="col-12 col-md-6 mt-3"></div>
+        </div>
+        <div class="row">
+            <div class="input-group mb-3 mt-3">
+                <div class="input-group-prepend col-12" id="button-addon3">
+                    <div id="tableButton" class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle rounded-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Show table data
+                        </button>
+                        <div class="dropdown-menu"></div>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <div class="row">
+            <table id="mainTable" class="table table-striped col-12">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+        </div>
+        <div class="row mt-3 mb-3">
+            <a class="badge badge-warning col-12" href="https://github.com/dgis-demo/rate-limiting">Source code</a>
+        </div>
+    </div>
+    <script src="../frontend/dist/bundle.js"></script>
+</body>
+</html>
