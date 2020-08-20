@@ -96,3 +96,11 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# others
+.idea
+.env
+.vscode
+
+# frontend
+node_modules

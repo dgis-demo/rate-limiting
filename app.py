@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from rate_limiter import limiter
 import sqlalchemy
 
 # web app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='frontend')
 
 # database engine
 engine = sqlalchemy.create_engine(os.getenv('SQL_URI'))
@@ -14,11 +14,15 @@ engine = sqlalchemy.create_engine(os.getenv('SQL_URI'))
 
 @app.route('/')
 def index():
-    return 'Welcome to EQ Works 😎'
+    return render_template('index.html')
+
+@app.route('/error')
+def error():
+    return render_template('error.html')
 
 
 @app.route('/events/hourly')
-@limiter(5, 'hour')
+@limiter(200, 'hour')
 def events_hourly():
     return query_helper('''
         SELECT date, hour, events
@@ -29,7 +33,7 @@ def events_hourly():
 
 
 @app.route('/events/daily')
-@limiter(3, 'minute')
+@limiter(5, 'minute')
 def events_daily():
     return query_helper('''
         SELECT date, SUM(events) AS events
@@ -41,7 +45,7 @@ def events_daily():
 
 
 @app.route('/stats/hourly')
-@limiter(10, 'hour')
+@limiter(100, 'hour')
 def stats_hourly():
     return query_helper('''
         SELECT date, hour, impressions, clicks, revenue
@@ -52,7 +56,7 @@ def stats_hourly():
 
 
 @app.route('/stats/daily')
-@limiter(4, 'minute')
+@limiter(6, 'minute')
 def stats_daily():
     return query_helper('''
         SELECT date,
