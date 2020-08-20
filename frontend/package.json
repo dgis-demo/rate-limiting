@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.5.2",
-    "fuzzy-search": "^3.2.1",
     "highcharts": "^8.1.2",
     "jquery": "^3.5.1",
     "leaflet": "^1.6.0",
